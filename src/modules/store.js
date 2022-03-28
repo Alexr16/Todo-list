@@ -9,11 +9,15 @@ export default class Store {
     return list;
   }
 
+  static save() {
+    localStorage.setItem('task', JSON.stringify(this.list));
+  } 
+
   static add(task) {
     const list = Store.getList();
     list.push(task);
     Store.updateIndex();
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
   }
 
   static remove(index) {
@@ -23,7 +27,7 @@ export default class Store {
         list.splice(index - 1, 1);
       }
     }
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
   }
 
   static updateIndex() {
@@ -31,25 +35,25 @@ export default class Store {
     for (let j = 0; j < list.length; j += 1) {
       list[j].index = j + 1;
     }
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
   }
 
   static updateInput(value, task) {
     const list = Store.getList();
     list[task.index - 1].description = value;
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
   }
 
   static updateState(value, task) {
     const list = Store.getList();
-    list[task.index - 1].state = value;
-    localStorage.setItem('task', JSON.stringify(list));
+    list[task.index - 1].state = value;this.save();
+    this.save();
   }
 
   static updateStorage() {
     const list = Store.getList();
     Store.updateIndex();
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
   }
 
   static clearCompleted() {
@@ -57,7 +61,7 @@ export default class Store {
     list.forEach(() => {
       list = list.filter((task) => task.state !== true);
     });
-    localStorage.setItem('task', JSON.stringify(list));
+    this.save();
     Store.updateIndex();
   }
 }

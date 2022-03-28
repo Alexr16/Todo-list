@@ -14,21 +14,20 @@ toDoList.appendChild(ul);
 
 addBtn.addEventListener('click', (e) => {
   e.preventDefault();
-  const description = document.getElementById('description').value;
   const input = document.getElementById('description');
-  if (description === '') {
+  if (input.value === '') {
     // list.alert('Book cannot be empty', 'danger');
   } else {
     const list = Store.getList();
     const index = list.length + 1;
-    const newTask = new Task(description, false, index);
+    const newTask = new Task(input.value, false, index);
     List.add(newTask);
     Store.add(newTask);
   }
   input.value = '';
 });
 
-window.addEventListener('load', () => {
+window.onload = () => {
   List.display();
   Store.updateIndex();
-});
+};
